@@ -57,7 +57,7 @@
     flex-direction: column;
     align-items: center;
     padding: 0 14px; /* 左右边距 14px */
-    padding-bottom: max(14px, env(safe-area-inset-bottom)); /* 下边距 14px（上边距 44px = 状态栏） */
+    padding-bottom: env(safe-area-inset-bottom); /* 底部由脚注的 margin-bottom 14px 控制 */
     position: relative;
   }
 
@@ -94,13 +94,17 @@
     flex-direction: column;
     align-items: center;
   }
+  .stage {
+    flex: 1; /* 唱片相对垂直居中：在 logo 与下方文字块之间自动居中 */
+    justify-content: center;
+  }
 
   /* ---------- 黑胶唱片（三层：白色大圆底 + 粉色圆环 + 黑胶，正圆旋转） ---------- */
   .vinyl-scene {
     position: relative;
     width: 256px;
     height: 256px;
-    margin-top: 154px; /* 唱片至播放键整体上移 44px */
+    margin-top: 0; /* 由 .stage 弹性居中 */
     flex: none;
   }
   .vinyl-backdrop {
@@ -172,9 +176,12 @@
     background: radial-gradient(circle at 42% 38%, #f4adad 0%, var(--salmon) 58%, #d97f83 100%);
     box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .55), 0 0 6px rgba(60, 40, 38, .15);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center; /* LittleSwan 垂直居中 */
+    justify-content: center; /* logo + 英文名 整体垂直居中 */
+    gap: 3px;
   }
+  .label-swan { width: 18px; height: 18px; }
   .label-text {
     font-family: Georgia, "Times New Roman", "Songti SC", serif;
     font-style: italic;
@@ -382,18 +389,16 @@
   .note.c2 { right: 14%; top: 8px; animation-delay: 1.3s; }
   .note.c3 { right: 27%; bottom: 0; animation-delay: 2.1s; font-size: 20px; }
 
-  /* 自动播放被拦截时的提示（页脚注脚：距播放键 44px，距底部 14px） */
+  /* 脚注：常显，上边距 44px（与播放键间距），下边距 14px */
   .footnote {
-    margin-top: 30px; /* 播放键底部 → 脚注 44px（含控制区下方 14px 留白） */
+    margin-top: 44px;
+    margin-bottom: 14px;
     text-align: center;
     font-size: 12px;
     letter-spacing: 2px;
     color: var(--salmon);
-    opacity: 0;
-    transition: opacity .8s ease;
     flex: none;
   }
-  body.awaiting .footnote { opacity: 1; }
 </style>
 </head>
 <body>
@@ -437,6 +442,15 @@
       <div class="vinyl">
         <div class="grooves"></div>
         <div class="vinyl-label">
+          <svg class="label-swan" viewBox="0 0 64 64" aria-hidden="true">
+            <!-- 小天鹅 logo -->
+            <g fill="#ffffff">
+              <ellipse cx="25" cy="46" rx="13" ry="8.5"/>
+              <path d="M34 43 C40 30 43 21 48 17" stroke="#ffffff" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+              <circle cx="49" cy="14" r="5.5"/>
+              <path d="M53.5 12.5 L60 15 L53.5 17.5 Z"/>
+            </g>
+          </svg>
           <span class="label-text">LittleSwan</span>
         </div>
       </div>
