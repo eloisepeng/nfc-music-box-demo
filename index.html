@@ -172,12 +172,9 @@
     background: radial-gradient(circle at 42% 38%, #f4adad 0%, var(--salmon) 58%, #d97f83 100%);
     box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .55), 0 0 6px rgba(60, 40, 38, .15);
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 3px;
+    justify-content: center; /* LittleSwan 垂直居中 */
   }
-  .label-swan { width: 18px; height: 18px; }
   .label-text {
     font-family: Georgia, "Times New Roman", "Songti SC", serif;
     font-style: italic;
@@ -243,7 +240,7 @@
 
   /* ---------- 主题文字（逐字缓慢跳跃） ---------- */
   .title {
-    margin-top: 2px;
+    margin-top: 8px; /* 唱片 → 歌曲名字 8px */
     font-size: 40px;
     font-weight: 600;
     letter-spacing: 6px;
@@ -288,7 +285,7 @@
   /* ---------- 进度条（跟随音乐时间，可点击 / 拖动） ---------- */
   .progress-wrap {
     width: 100%;
-    margin-top: 4px;
+    margin-top: 8px; /* 歌曲名字 → 进度条 8px */
     flex: none;
   }
   .progress-track {
@@ -345,7 +342,7 @@
     position: relative;
     width: 100%;
     height: 72px;
-    margin-top: 0;
+    margin-top: 8px; /* 进度条 → 播放键 8px */
     display: flex;
     align-items: flex-start;
     justify-content: center; /* 播放键居中 */
@@ -442,31 +439,22 @@
       <div class="vinyl">
         <div class="grooves"></div>
         <div class="vinyl-label">
-          <svg class="label-swan" viewBox="0 0 64 64" aria-hidden="true">
-            <!-- 小天鹅剪影：身体 + 长颈 + 头 + 喙 -->
-            <g fill="#ffffff">
-              <ellipse cx="25" cy="46" rx="13" ry="8.5"/>
-              <path d="M34 43 C40 30 43 21 48 17" stroke="#ffffff" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-              <circle cx="49" cy="14" r="5.5"/>
-              <path d="M53.5 12.5 L60 15 L53.5 17.5 Z"/>
-            </g>
-          </svg>
           <span class="label-text">LittleSwan</span>
         </div>
       </div>
     </div>
-    <!-- 唱针（设计稿：唱片 + 唱针组合） -->
+    <!-- 唱针（灰色，设计稿：唱片 + 唱针组合） -->
     <svg class="tonearm" viewBox="0 0 256 256" aria-hidden="true">
-      <circle cx="200" cy="26" r="15" fill="#2b2e2d"/>
-      <circle cx="200" cy="26" r="15" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
-      <circle cx="200" cy="26" r="7" fill="#3d413f"/>
-      <line x1="192" y1="38" x2="168" y2="72" stroke="#2b2e2d" stroke-width="8" stroke-linecap="round"/>
-      <line x1="190" y1="36" x2="166" y2="70" stroke="rgba(255,255,255,.45)" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="200" cy="26" r="15" fill="#8f9492"/>
+      <circle cx="200" cy="26" r="15" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
+      <circle cx="200" cy="26" r="7" fill="#767b79"/>
+      <line x1="192" y1="38" x2="168" y2="72" stroke="#8f9492" stroke-width="8" stroke-linecap="round"/>
+      <line x1="190" y1="36" x2="166" y2="70" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round"/>
       <g transform="rotate(-30 160 77)">
-        <rect x="148" y="72" width="24" height="10" rx="4" fill="#2b2e2d"/>
-        <rect x="148" y="72" width="24" height="3.2" rx="1.6" fill="rgba(255,255,255,.4)"/>
+        <rect x="148" y="72" width="24" height="10" rx="4" fill="#8f9492"/>
+        <rect x="148" y="72" width="24" height="3.2" rx="1.6" fill="rgba(255,255,255,.45)"/>
       </g>
-      <line x1="163" y1="82" x2="172" y2="66" stroke="#3d413f" stroke-width="3" stroke-linecap="round"/>
+      <line x1="163" y1="82" x2="172" y2="66" stroke="#6f7472" stroke-width="3" stroke-linecap="round"/>
     </svg>
     <!-- 旋律音符（白色，播放时浮动） -->
     <span class="melody m1">♪</span>
