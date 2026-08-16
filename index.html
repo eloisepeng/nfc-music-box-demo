@@ -57,7 +57,7 @@
     flex-direction: column;
     align-items: center;
     padding: 0 14px; /* 左右边距 14px */
-    padding-bottom: max(44px, env(safe-area-inset-bottom)); /* 下边距 44px（上边距 44px = 状态栏） */
+    padding-bottom: max(14px, env(safe-area-inset-bottom)); /* 下边距 14px（上边距 44px = 状态栏） */
     position: relative;
   }
 
@@ -382,20 +382,18 @@
   .note.c2 { right: 14%; top: 8px; animation-delay: 1.3s; }
   .note.c3 { right: 27%; bottom: 0; animation-delay: 2.1s; font-size: 20px; }
 
-  /* 自动播放被拦截时的提示 */
-  .hint {
-    position: absolute;
-    bottom: -18px;
-    left: 0; right: 0;
+  /* 自动播放被拦截时的提示（页脚注脚：距播放键 44px，距底部 14px） */
+  .footnote {
+    margin-top: 30px; /* 播放键底部 → 脚注 44px（含控制区下方 14px 留白） */
     text-align: center;
     font-size: 12px;
     letter-spacing: 2px;
     color: var(--salmon);
     opacity: 0;
     transition: opacity .8s ease;
-    pointer-events: none;
+    flex: none;
   }
-  body.awaiting .hint { opacity: 1; }
+  body.awaiting .footnote { opacity: 1; }
 </style>
 </head>
 <body>
@@ -494,8 +492,10 @@
     <button class="btn-round" id="btnMain" aria-label="播放/暂停">
       <span class="icon-play">▶</span><span class="icon-pause">❚❚</span>
     </button>
-    <div class="hint">轻触屏幕 · 开始播放</div>
   </div>
+
+  <!-- 脚注 -->
+  <div class="footnote">轻触屏幕，开始播放</div>
   </div><!-- /.panel -->
 
 </div>
