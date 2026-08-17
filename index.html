@@ -84,9 +84,17 @@
     width: 298px;
     height: 350px;
   }
-  .stack-donut { /* DONUT：相对 circle2 偏右、垂直居中 */
+  .stack-ellipse { /* circle1：所有圆层的最底层，比 circle2 大 20% */
     position: absolute;
-    left: 235px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 464px;
+    height: 464px;
+  }
+  .stack-donut { /* DONUT：相对 circle2 居中偏右、垂直居中 */
+    position: absolute;
+    left: 240px;
     top: 50%;
     transform: translateY(-50%);
     width: 44px;
@@ -106,8 +114,8 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 189px;
-    height: 189px;
+    width: 227px;
+    height: 227px;
   }
   .vinyl-disc {
     width: 100%;
@@ -367,6 +375,7 @@
 
   <!-- 唱片叠层 -->
   <div class="record-stack">
+    <img class="stack-ellipse" src="assets/circle1.png" alt="">
     <img class="stack-donut" src="assets/DONUT.png" alt="">
     <img class="stack-pink" src="assets/circle2.png" alt="">
     <div class="vinyl-wrap">
