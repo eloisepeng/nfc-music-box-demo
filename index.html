@@ -89,14 +89,14 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 340px;
-    height: 350px;
+    width: 408px;
+    height: 420px;
   }
   .stack-donut { /* DONUT：中层，偏右 */
     position: absolute;
     left: 248px;
     top: 130px;
-    width: 88px;
+    width: 44px;
     height: auto;
     pointer-events: none;
   }
@@ -113,8 +113,8 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 121px;
-    height: 121px;
+    width: 145px;
+    height: 145px;
   }
   .vinyl-disc {
     width: 100%;
@@ -133,7 +133,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 34px;
+    width: 41px;
     height: auto;
     pointer-events: none;
   }
@@ -311,9 +311,10 @@
   }
   .btn-main img { width: 100%; height: 100%; display: block; }
   .btn-main:active { transform: translate(-50%, -50%) scale(.94); }
-  .icon-pause-img { display: none; }
+  .icon-pause-img { display: none; } /* 暂停时移除 pause_button.png */
   body.playing .icon-play-img { display: none; }
   body.playing .icon-pause-img { display: inline; }
+  body:not(.playing) .icon-pause-img { display: none; }
   .btn-close { /* 取消 ✕：与播放键同款式同大小，靠左对齐 */
     position: absolute;
     left: 40px;
@@ -340,7 +341,7 @@
     left: 50%;
     top: 783px;
     transform: translate(-50%, -50%);
-    width: 200px;
+    width: 300px;
     height: auto;
     pointer-events: none;
     opacity: .85;
