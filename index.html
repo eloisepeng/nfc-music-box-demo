@@ -135,16 +135,15 @@
     height: auto;
     pointer-events: none;
   }
-  .label-donut { /* 中心轴装饰 */
+  .stack-donut { /* DONUT：中层，偏右 */
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 14px;
+    left: 248px;
+    top: 130px;
+    width: 88px;
     height: auto;
     pointer-events: none;
   }
-  .tonearm { /* 黑胶针（灰色，右上） */
+  .tonearm { /* needle：右上角 */
     position: absolute;
     left: 262px;
     top: 18px;
@@ -222,23 +221,15 @@
     28%      { transform: translateY(-0.22em); }
     52%      { transform: translateY(0); }
   }
-  .subtitle {
+  .subtitle { /* 与标题同色鲑鱼粉，宽松字距（按规格图测量） */
     position: absolute;
     left: 0; right: 0;
-    top: 654px;
+    top: 651px;
     text-align: center;
-    font-size: 23px;
-    letter-spacing: 2px;
-    color: var(--light-pink);
-  }
-  .hearts {
-    position: absolute;
-    left: 50%;
-    top: 676px;
-    transform: translateX(-50%);
-    width: 245px;
-    height: auto;
-    pointer-events: none;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 8px;
+    color: #f2a6a6;
   }
 
   /* ---------- 进度条（可点击 / 拖动） ---------- */
@@ -255,16 +246,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .progress-rail { /* 宽胶囊底（半透明） */
-    position: absolute;
-    left: 0; right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    height: auto;
-    opacity: .55;
-    pointer-events: none;
   }
   .progress-bar {
     position: relative;
@@ -320,22 +301,22 @@
   .icon-pause-img { display: none; }
   body.playing .icon-play-img { display: none; }
   body.playing .icon-pause-img { display: inline; }
-  .tri {
+  .buttons-bar { /* 与主播放/暂停按钮同层级 */
     position: absolute;
+    left: 50%;
     top: 776px;
-    transform: translateY(-50%);
-    color: var(--salmon-bright);
-    font-size: 15px;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: auto;
     pointer-events: none;
+    opacity: .85;
   }
-  .tri.tri-l { left: 112px; }
-  .tri.tri-r { left: 288px; }
 
-  /* ---------- 脚注 ---------- */
+  /* ---------- 脚注（底部边距 14px） ---------- */
   .footnote {
     position: absolute;
     left: 0; right: 0;
-    top: 795px;
+    bottom: 14px;
     text-align: center;
     font-size: 12px;
     letter-spacing: 2px;
@@ -375,16 +356,16 @@
     <div class="logo-zh">全心全意小天鹅</div>
   </div>
 
-  <!-- 唱片叠层 -->
+  <!-- 唱片叠层：从后到前 circle1 → DONUT（中右） → circle2 → circle3 → needle（右上角） -->
   <div class="record-stack">
-    <img class="stack-ellipse" src="assets/椭圆 1.png" alt="">
-    <img class="stack-pink" src="assets/粉圆.png" alt="">
+    <img class="stack-ellipse" src="assets/circle1.png" alt="">
+    <img class="stack-donut" src="assets/DONUT.png" alt="">
+    <img class="stack-pink" src="assets/circle2.png" alt="">
     <div class="vinyl-wrap">
-      <img class="vinyl-disc" src="assets/中圆.png" alt="">
+      <img class="vinyl-disc" src="assets/circle3.png" alt="">
       <img class="label-logo" src="assets/logo.png" alt="LittleSwan">
-      <img class="label-donut" src="assets/DONUT.png" alt="">
     </div>
-    <img class="tonearm" src="assets/黑胶针.png" alt="">
+    <img class="tonearm" src="assets/needle.png" alt="">
     <span class="white-note n1">♪</span>
     <span class="white-note n2">♫</span>
     <span class="white-note n3">♬</span>
@@ -403,28 +384,25 @@
   <!-- 标题 / 副标题 -->
   <h1 class="title"><span>秋</span><span>日</span><span>疗</span><span>愈</span><span>白</span><span>噪</span><span>音</span></h1>
   <p class="subtitle">中秋安康 身心皆愈</p>
-  <img class="hearts" src="assets/心心点点.png" alt="">
 
   <!-- 进度条 -->
   <div class="progress-wrap" id="progressTrack" role="slider" tabindex="0"
        aria-label="播放进度" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0">
-    <img class="progress-rail" src="assets/按钮3.png" alt="">
     <div class="progress-bar">
-      <img class="progress-line" src="assets/直线 1.png" alt="">
+      <img class="progress-line" src="assets/bar.png" alt="">
       <div class="progress-fill" id="progressFill"></div>
       <img class="progress-thumb" id="progressThumb" src="assets/椭圆 4.png" alt="">
     </div>
   </div>
 
-  <!-- 播放 / 暂停大圆按钮 + 两侧小三角 -->
+  <!-- 播放 / 暂停大圆按钮（居中唯一按钮）+ 同层级的 buttons.png -->
   <button class="btn-main" id="btnMain" aria-label="播放/暂停">
-    <img class="icon-play-img" src="assets/按钮1.png" alt="播放">
-    <img class="icon-pause-img" src="assets/按钮2.png" alt="暂停">
+    <img class="icon-play-img" src="assets/play_button.png" alt="播放">
+    <img class="icon-pause-img" src="assets/pause_button.png" alt="暂停">
   </button>
-  <span class="tri tri-l">▶</span>
-  <span class="tri tri-r">▶</span>
+  <img class="buttons-bar" src="assets/buttons.png" alt="">
 
-  <!-- 脚注 -->
+  <!-- 脚注（底部边距 14px） -->
   <div class="footnote">轻触屏幕，开始播放</div>
 
 </div>
