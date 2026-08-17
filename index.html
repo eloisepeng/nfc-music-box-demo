@@ -17,6 +17,11 @@
   脚注（底部 14px）· 设计基准 iPhone 17（402×874），UI 固定尺寸居中缩放
 -->
 <style>
+  @font-face {
+    font-family: "FZLanTingYuan";
+    src: url("assets/方正兰亭圆简体.TTF") format("truetype");
+    font-display: swap;
+  }
   :root {
     --salmon: #e58d91;        /* 主题鲑鱼粉 */
     --salmon-bright: #f58e91; /* 高亮鲑鱼粉 */
@@ -29,7 +34,7 @@
   body {
     background: #f0d0d0 url("assets/底图.png") center / cover no-repeat;
     color: #3a2f2f;
-    font-family: "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif;
+    font-family: "FZLanTingYuan", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
