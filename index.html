@@ -84,17 +84,17 @@
     width: 298px;
     height: 350px;
   }
-  .stack-ellipse { /* circle1：中间圆（circle2）的白色底衬，四周露出白边 */
+  .stack-ellipse { /* circle1：正圆白色底衬，四周露出白边 */
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 408px;
+    width: 420px;
     height: 420px;
   }
   .stack-donut { /* DONUT：中层，偏右 */
     position: absolute;
-    left: 248px;
+    left: 298px;
     top: 130px;
     width: 44px;
     height: auto;
@@ -336,17 +336,6 @@
   }
   body.playing .btn-close { box-shadow: 0 0 0 6px rgba(229, 141, 145, .14); }
   .btn-close:active { transform: scale(.94); }
-  .buttons-bar { /* 与主按钮同层级 */
-    position: absolute;
-    left: 50%;
-    top: 783px;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: auto;
-    pointer-events: none;
-    opacity: .85;
-  }
-
   /* ---------- 脚注（底部边距 14px） ---------- */
   .footnote {
     position: absolute;
@@ -437,7 +426,6 @@
     <img class="icon-play-img" src="assets/play_button.png" alt="播放">
     <img class="icon-pause-img" src="assets/pause_button.png" alt="暂停">
   </button>
-  <img class="buttons-bar" src="assets/buttons.png" alt="">
 
   <!-- 脚注 -->
   <div class="footnote">轻触屏幕，开始播放</div>
