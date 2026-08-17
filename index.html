@@ -10,7 +10,7 @@
 <title>你就是温暖</title>
 <!--
   小天鹅 NFC 音乐盒 · 按 spec.jpg 设计稿布局
-  右上 logo（logo.png 含手写英文+中文）· 14px 左右边距
+  右上 logo（logo.png 含手写英文+中文）· 顶部边距 44px · 14px 左右边距
   唱片叠层（circle1 → DONUT 中右 → circle2 → circle3 → needle 右上）居中于 ~43% 高度
   动态音符行 · 山谷的呼吸 / Breath of the Valley（逐字跳跃）· 下划线
   进度条（bar + 椭圆4 滑块 + 0:00 / 1:31 时间）· 取消 ✕ + 播放/暂停大圆按钮 + buttons.png
@@ -60,7 +60,7 @@
   .logo-top {
     position: absolute;
     left: 14px;
-    top: 12px;
+    top: 44px;
   }
   .logo-top img { display: block; width: 70px; height: auto; }
 
@@ -68,7 +68,7 @@
   .record-stack {
     position: absolute;
     left: 50%;
-    top: 291px;
+    top: 323px;
     transform: translate(-50%, -50%);
     width: 298px;
     height: 350px;
@@ -149,7 +149,7 @@
   .notes-row {
     position: absolute;
     left: 0; right: 0;
-    top: 487px;
+    top: 519px;
     height: 30px;
   }
   .note {
@@ -173,7 +173,7 @@
   .title {
     position: absolute;
     left: 0; right: 0;
-    top: 531px;
+    top: 563px;
     text-align: center;
     font-size: 29px;
     font-weight: 600;
@@ -200,7 +200,7 @@
   .subtitle {
     position: absolute;
     left: 0; right: 0;
-    top: 569px;
+    top: 601px;
     text-align: center;
     font-size: 18px;
     font-weight: 400;
@@ -210,7 +210,7 @@
   .underline {
     position: absolute;
     left: 50%;
-    top: 597px;
+    top: 629px;
     transform: translateX(-50%);
     width: 132px;
     height: 2px;
@@ -222,7 +222,7 @@
   .progress-wrap { /* 与标题区（下划线）间距 8px */
     position: absolute;
     left: 50%;
-    top: 607px;
+    top: 639px;
     transform: translateX(-50%);
     width: 322px;
     height: 28px;
@@ -271,7 +271,7 @@
   .time-row {
     position: absolute;
     left: 50%;
-    top: 621px;
+    top: 653px;
     transform: translateX(-50%);
     width: 322px;
     display: flex;
@@ -285,7 +285,7 @@
   .btn-main { /* 底部边距 44px */
     position: absolute;
     left: 50%;
-    top: 686px;
+    top: 718px;
     transform: translate(-50%, -50%);
     width: 86px;
     height: 86px;
@@ -303,7 +303,7 @@
   .btn-close { /* 取消 ✕：与播放键同款式同大小，靠左对齐 */
     position: absolute;
     left: 40px;
-    top: 658px;
+    top: 690px;
     width: 56px;
     height: 56px;
     border-radius: 50%;
