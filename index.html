@@ -52,10 +52,11 @@
     position: relative;
   }
 
-  /* ---------- 状态栏 44px ---------- */
+  /* ---------- 状态栏 44px（顶部边距 14px） ---------- */
   .statusbar {
     height: 44px;
     width: 100%;
+    margin-top: 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -291,10 +292,10 @@
   }
 
   /* ---------- 底部按钮区 ---------- */
-  .btn-main {
+  .btn-main { /* 底部边距 44px */
     position: absolute;
     left: 50%;
-    top: 783px;
+    top: 744px;
     transform: translate(-50%, -50%);
     width: 86px;
     height: 86px;
@@ -312,7 +313,7 @@
   .btn-close { /* 取消 ✕：与播放键同款式同大小，靠左对齐 */
     position: absolute;
     left: 40px;
-    top: 755px;
+    top: 716px;
     width: 56px;
     height: 56px;
     border-radius: 50%;
@@ -330,11 +331,11 @@
   }
   body.playing .btn-close { box-shadow: 0 0 0 6px rgba(229, 141, 145, .14); }
   .btn-close:active { transform: scale(.94); }
-  /* ---------- 脚注（底部边距 44px） ---------- */
+  /* ---------- 脚注（底部边距 14px） ---------- */
   .footnote {
     position: absolute;
     left: 0; right: 0;
-    bottom: 44px;
+    bottom: 14px;
     text-align: center;
     font-size: 12px;
     letter-spacing: 2px;
