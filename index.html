@@ -81,38 +81,38 @@
     margin-top: 2px;
   }
 
-  /* ---------- 唱片叠层 ---------- */
+  /* ---------- 唱片叠层（spec_launch/spec_playing 规格：大椭圆底 + 粉圆 + 正圆黑胶） ---------- */
   .record-stack {
     position: absolute;
     left: 50%;
-    top: 315px; /* 唱片圆心 = 屏幕 36%（视频规格） */
+    top: 253px; /* 叠层中心 = 屏幕 29% */
     transform: translate(-50%, -50%);
-    width: 300px;
-    height: 307px;
+    width: 298px;
+    height: 350px;
   }
   .stack-ellipse { /* 白色椭圆底 */
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 261px;
-    height: 307px;
+    width: 298px;
+    height: 350px;
   }
   .stack-pink { /* 粉色圆环层 */
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
-    height: 300px;
+    width: 298px;
+    height: 298px;
   }
-  .vinyl-wrap { /* 黑胶（旋转） */
+  .vinyl-wrap { /* 黑胶（正圆，旋转），圆心略低于叠层中心 */
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: calc(50% + 30px);
     transform: translate(-50%, -50%);
-    width: 156px;
-    height: 156px;
+    width: 121px;
+    height: 121px;
   }
   .vinyl-disc {
     width: 100%;
@@ -131,7 +131,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 46px;
+    width: 34px;
     height: auto;
     pointer-events: none;
   }
@@ -140,15 +140,15 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 20px;
+    width: 14px;
     height: auto;
     pointer-events: none;
   }
-  .tonearm { /* 黑胶针（灰色） */
+  .tonearm { /* 黑胶针（灰色，右上） */
     position: absolute;
-    right: -14px;
-    top: -76px;
-    width: 56px;
+    left: 262px;
+    top: 18px;
+    width: 52px;
     height: auto;
     pointer-events: none;
   }
@@ -163,9 +163,9 @@
     text-shadow: 0 1px 3px rgba(0, 0, 0, .15);
   }
   body.playing .white-note { opacity: .95; animation-play-state: running; }
-  .white-note.n1 { left: 30px;  top: -62px; font-size: 20px; animation-delay: 0s; }
-  .white-note.n2 { left: 128px; top: -70px; font-size: 24px; animation-delay: 1.1s; }
-  .white-note.n3 { left: 222px; top: -58px; font-size: 17px; animation-delay: 2.2s; }
+  .white-note.n1 { left: 36px;  top: 24px;  font-size: 20px; animation-delay: 0s; }
+  .white-note.n2 { left: 128px; top: 20px;  font-size: 24px; animation-delay: 1.1s; }
+  .white-note.n3 { left: 226px; top: 26px;  font-size: 17px; animation-delay: 2.2s; }
   @keyframes bob {
     0%, 100% { transform: translateY(0) rotate(-8deg); }
     50%      { transform: translateY(-13px) rotate(10deg); }
@@ -175,14 +175,16 @@
   .timer {
     position: absolute;
     left: 0; right: 0;
-    top: 430px;
+    top: 428px;
     text-align: center;
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
-    color: var(--white-warm);
+    color: #e9cfcc; /* 启动态：浅粉时间（0:00） */
     letter-spacing: 2px;
+    transition: color .6s ease;
   }
+  body.playing .timer { color: var(--white-warm); } /* 播放态：白色时间 */
   .mode-word {
     position: absolute;
     font-size: 13px;
@@ -243,9 +245,9 @@
   .progress-wrap {
     position: absolute;
     left: 50%;
-    top: 694px;
+    top: 695px;
     transform: translateX(-50%);
-    width: 346px;
+    width: 322px;
     height: 28px;
     cursor: pointer;
     touch-action: none;
@@ -269,13 +271,15 @@
     width: 100%;
     height: 5px;
   }
-  .progress-line { /* 鲑鱼线 */
+  .progress-line { /* 鲑鱼线：启动态完整显示，播放态变淡（仅进度高亮） */
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     opacity: .9;
+    transition: opacity .6s ease;
   }
+  body.playing .progress-line { opacity: .3; }
   .progress-fill {
     position: absolute;
     left: 0; top: 0; bottom: 0;
@@ -302,7 +306,7 @@
   .btn-main {
     position: absolute;
     left: 50%;
-    top: 765px;
+    top: 776px;
     transform: translate(-50%, -50%);
     width: 86px;
     height: 86px;
@@ -318,7 +322,7 @@
   body.playing .icon-pause-img { display: inline; }
   .tri {
     position: absolute;
-    top: 765px;
+    top: 776px;
     transform: translateY(-50%);
     color: var(--salmon-bright);
     font-size: 15px;
@@ -331,7 +335,7 @@
   .footnote {
     position: absolute;
     left: 0; right: 0;
-    top: 798px;
+    top: 795px;
     text-align: center;
     font-size: 12px;
     letter-spacing: 2px;
@@ -388,15 +392,13 @@
 
   <!-- 时间显示 + 模式词 -->
   <div class="timer" id="timerDisplay">0:00</div>
-  <span class="mode-word" style="left:145px; top:448px;">标准</span>
+  <span class="mode-word" style="left:144px; top:450px;">标准</span>
   <span class="mode-word" style="left:140px; top:465px;">单烘干</span>
-  <span class="mode-word" style="left:174px; top:461px;">快洗</span>
-  <span class="mode-word" style="left:169px; top:475px;">温度</span>
-  <span class="mode-word" style="left:196px; top:480px;">智投</span>
+  <span class="mode-word" style="left:173px; top:461px;">快洗</span>
+  <span class="mode-word" style="left:195px; top:479px;">智投</span>
   <span class="mode-word" style="left:217px; top:461px;">羽绒衣</span>
-  <span class="mode-word" style="left:222px; top:475px;">漂洗</span>
-  <span class="mode-word" style="left:244px; top:463px;">筒自洁</span>
-  <span class="mode-word" style="left:267px; top:433px;">启动</span>
+  <span class="mode-word" style="left:223px; top:476px;">漂洗</span>
+  <span class="mode-word" style="left:244px; top:464px;">筒自洁</span>
 
   <!-- 标题 / 副标题 -->
   <h1 class="title"><span>秋</span><span>日</span><span>疗</span><span>愈</span><span>白</span><span>噪</span><span>音</span></h1>
