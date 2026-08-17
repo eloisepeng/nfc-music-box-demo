@@ -121,20 +121,11 @@
     from { transform: rotateZ(0deg); }
     to   { transform: rotateZ(360deg); }
   }
-  .label-logo {
+  .tonearm { /* needle：圆圈层的相对右上角 */
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 53px;
-    height: auto;
-    pointer-events: none;
-  }
-  .tonearm { /* needle：右上角 */
-    position: absolute;
-    left: 262px;
-    top: 18px;
-    width: 156px;
+    left: 232px;
+    top: 0;
+    width: 78px;
     height: auto;
     pointer-events: none;
   }
@@ -380,7 +371,6 @@
     <img class="stack-pink" src="assets/circle2.png" alt="">
     <div class="vinyl-wrap">
       <img class="vinyl-disc" src="assets/circle3.png" alt="">
-      <img class="label-logo" src="assets/logo.png" alt="LittleSwan">
     </div>
     <img class="tonearm" src="assets/needle.png" alt="">
     <span class="white-note n1">♪</span>
