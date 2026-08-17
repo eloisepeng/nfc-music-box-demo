@@ -52,34 +52,13 @@
     position: relative;
   }
 
-  /* ---------- 状态栏 44px ---------- */
-  .statusbar {
-    height: 44px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 14px;
-    color: #b98f8d;
-    font-size: 15px;
-    font-weight: 600;
-  }
-  .sb-icons { display: flex; align-items: center; gap: 6px; }
-  .sb-icons svg { display: block; }
-
-  /* ---------- 左上品牌（白色手写 logo + 中文） ---------- */
+  /* ---------- 左上品牌（规格图：位于顶部 3% / 左侧 8%，logo.png 含英文+中文） ---------- */
   .logo-top {
     position: absolute;
-    left: 14px;
-    top: 50px;
+    left: 33px;
+    top: 26px;
   }
-  .logo-top img { display: block; width: 100px; height: auto; }
-  .logo-zh {
-    font-size: 13px;
-    letter-spacing: 2px;
-    color: #f6e8e6;
-    margin-top: 2px;
-  }
+  .logo-top img { display: block; width: 70px; height: auto; }
 
   /* ---------- 唱片叠层（spec_launch/spec_playing 规格：大椭圆底 + 粉圆 + 正圆黑胶） ---------- */
   .record-stack {
@@ -176,17 +155,15 @@
     left: 0; right: 0;
     top: 428px;
     text-align: center;
-    font-size: 26px;
+    font-size: 21px; /* 规格图字形高度按屏宽比例换算 */
     font-weight: 600;
     font-variant-numeric: tabular-nums;
-    color: #e9cfcc; /* 启动态：浅粉时间（0:00） */
+    color: var(--white-warm); /* 白色（规格图两态均为白色时间） */
     letter-spacing: 2px;
-    transition: color .6s ease;
   }
-  body.playing .timer { color: var(--white-warm); } /* 播放态：白色时间 */
   .mode-word {
     position: absolute;
-    font-size: 13px;
+    font-size: 12px;
     color: var(--word-pink);
     letter-spacing: 1px;
   }
@@ -197,9 +174,9 @@
     left: 0; right: 0;
     top: 606px;
     text-align: center;
-    font-size: 38px;
+    font-size: 29px; /* 规格图字形高度按屏宽比例换算 */
     font-weight: 600;
-    letter-spacing: 4px;
+    letter-spacing: 1px;
     color: var(--salmon);
   }
   .title span {
@@ -221,14 +198,14 @@
     28%      { transform: translateY(-0.22em); }
     52%      { transform: translateY(0); }
   }
-  .subtitle { /* 与标题同色鲑鱼粉，宽松字距（按规格图测量） */
+  .subtitle { /* 与标题同色鲑鱼粉（按规格图测量：18px，字距 4px） */
     position: absolute;
     left: 0; right: 0;
     top: 651px;
     text-align: center;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 400;
-    letter-spacing: 8px;
+    letter-spacing: 4px;
     color: #f2a6a6;
   }
 
@@ -329,31 +306,9 @@
 <div class="viewport">
 <div class="app">
 
-  <!-- 状态栏 44px -->
-  <div class="statusbar">
-    <span class="sb-time" id="sbTime">9:41</span>
-    <span class="sb-icons">
-      <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor">
-        <rect x="0" y="8" width="3" height="4" rx="1"/>
-        <rect x="5" y="6" width="3" height="6" rx="1"/>
-        <rect x="10" y="3" width="3" height="9" rx="1"/>
-        <rect x="15" y="0" width="3" height="12" rx="1"/>
-      </svg>
-      <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor">
-        <path d="M8 9.2a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6zM5.6 6.8a3.4 3.4 0 0 1 4.8 0l-1.2 1.2a1.7 1.7 0 0 0-2.4 0L5.6 6.8zM3.1 4.3a6.9 6.9 0 0 1 9.8 0L11.7 5.5a5.2 5.2 0 0 0-7.4 0L3.1 4.3z"/>
-      </svg>
-      <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
-        <rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="currentColor" opacity=".5"/>
-        <rect x="2" y="2" width="16" height="8" rx="2" fill="currentColor"/>
-        <path d="M23 4v4a2 2 0 0 0 0-4z" fill="currentColor" opacity=".5"/>
-      </svg>
-    </span>
-  </div>
-
-  <!-- 左上品牌 -->
+  <!-- 左上品牌（logo.png 已含手写英文 + 中文） -->
   <div class="logo-top">
-    <img src="assets/logo.png" alt="LittleSwan">
-    <div class="logo-zh">全心全意小天鹅</div>
+    <img src="assets/logo.png" alt="LittleSwan 全心全意小天鹅">
   </div>
 
   <!-- 唱片叠层：从后到前 circle1 → DONUT（中右） → circle2 → circle3 → needle（右上角） -->
@@ -538,16 +493,6 @@
     audio.pause();
     setPlaying(false);
   }
-
-  // 状态栏显示真实时间
-  function updateClock() {
-    var d = new Date();
-    var m = d.getMinutes();
-    document.getElementById("sbTime").textContent =
-      d.getHours() + ":" + (m < 10 ? "0" + m : m);
-  }
-  updateClock();
-  setInterval(updateClock, 30000);
 
   // 歌曲信息（锁屏 / 媒体通知）
   if ("mediaSession" in navigator && navigator.mediaSession) {
