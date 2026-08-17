@@ -3,35 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#eed6d4">
+<meta name="theme-color" content="#f0d0d0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="format-detection" content="telephone=no">
-<title>山谷的呼吸 · Breath of the Valley</title>
+<title>秋日疗愈白噪音</title>
 <!--
-  小天鹅 NFC 音乐盒
-  UI 依据 music_box_ui.jpg 设计稿还原：
-  浅粉背景 #eed6d4 · 鲑鱼粉 #e58d91 · 上下边距 44px · 左右边距 14px · 唱片垂直居中
-  主题文字：山谷的呼吸 / Breath of the Valley（逐字缓慢跳跃）
-  黑胶唱片（正圆三层：白色圆底 + 粉色环绕 + 黑胶，均可旋转）· 动态音符
-  进度条跟随音乐、可拖动 · 播放 / 取消按钮同款式 · 右上品牌 logo 取自设计稿原图
+  小天鹅 NFC 音乐盒 · 按 assets/demo.mp4 规格重建
+  底图渐变粉 · 左上白色手写 logo · 唱片叠层（椭圆1 + 粉圆 + 中圆 + 黑胶针 + 白色音符）
+  时间显示 + 模式词 · 秋日疗愈白噪音 / 中秋安康 身心皆愈 · 心心点点 · 进度线
+  大圆播放/暂停按钮 + 两侧小三角 · 脚注
   设计基准：iPhone 17（402×874）——UI 固定尺寸居中，
   屏幕更小时整体等比缩小，更大时仅背景色铺满。
 -->
 <style>
   :root {
-    --pink: #eed6d4;          /* 页面背景 */
-    --salmon: #e58d91;        /* 主题鲑鱼粉 */
-    --salmon-light: #f7cdcc;  /* 进度条轨道 */
-    --rose: #c49b9a;          /* 暂停态玫瑰灰 */
-    --rose-faint: #e8d9d6;    /* 暂停态弱化元素 */
-    --ink: #3a2f2f;           /* 状态栏/唱片深色 */
+    --salmon: #f4969c;      /* 标题鲑鱼粉 */
+    --salmon-bright: #f58e91; /* 高亮鲑鱼粉 */
+    --light-pink: #eecac4;  /* 副标题浅粉 */
+    --word-pink: #f2d6d3;   /* 模式词浅粉 */
+    --white-warm: #fffbf1;  /* 时间显示白 */
   }
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; overflow: hidden; }
   body {
-    background: var(--pink);
-    color: var(--ink);
+    background: #f0d0d0 url("assets/底图.png") center / cover no-repeat;
+    color: #3a2f2f;
     font-family: "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif;
     display: flex;
     align-items: center;
@@ -40,8 +37,7 @@
     -webkit-user-select: none;
   }
 
-  /* 设计基准 iPhone 17（402×874）：
-     屏幕小于基准时整体等比缩小，大于基准时保持原尺寸居中，背景色铺满 */
+  /* 设计基准 iPhone 17（402×874） */
   .viewport {
     width: 402px;
     height: 874px;
@@ -53,11 +49,6 @@
   .app {
     width: 402px;
     height: 874px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 14px; /* 左右边距 14px */
-    padding-bottom: env(safe-area-inset-bottom); /* 底部由脚注的 margin-bottom 14px 控制 */
     position: relative;
   }
 
@@ -68,191 +59,147 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: var(--rose);
+    padding: 0 14px;
+    color: #b98f8d;
     font-size: 15px;
     font-weight: 600;
-    flex: none;
   }
   .sb-icons { display: flex; align-items: center; gap: 6px; }
   .sb-icons svg { display: block; }
 
-  /* ---------- 品牌 Logo（右上，直接取自设计稿原图） ---------- */
-  .logo {
-    align-self: flex-end;
-    margin-top: 26px;
-    flex: none;
+  /* ---------- 左上品牌（白色手写 logo + 中文） ---------- */
+  .logo-top {
+    position: absolute;
+    left: 14px;
+    top: 50px;
   }
-  .logo-img {
-    display: block;
-    width: 102px; /* 223px ÷ 2.18 ≈ 102pt */
-    height: auto;
+  .logo-top img { display: block; width: 100px; height: auto; }
+  .logo-zh {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: #f6e8e6;
+    margin-top: 2px;
   }
 
-  .stage, .panel {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .stage {
-    flex: 1; /* 唱片相对垂直居中：在 logo 与下方文字块之间自动居中 */
-    justify-content: center;
-  }
-
-  /* ---------- 黑胶唱片（三层：白色大圆底 + 粉色圆环 + 黑胶，正圆旋转） ---------- */
-  .vinyl-scene {
-    position: relative;
-    width: 256px;
-    height: 256px;
-    margin-top: 0; /* 由 .stage 弹性居中 */
-    flex: none;
-  }
-  .vinyl-backdrop {
+  /* ---------- 唱片叠层 ---------- */
+  .record-stack {
     position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, .55); /* 第一层：白色圆底（透明感） */
-    border: 1px solid rgba(255, 255, 255, .8);
-    box-shadow: 0 4px 22px rgba(126, 86, 84, .14);
+    left: 50%;
+    top: 315px; /* 唱片圆心 = 屏幕 36%（视频规格） */
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 307px;
   }
-  .vinyl-pink {
-    position: absolute;
-    inset: 24px;
-    border-radius: 50%;
-    background: rgba(238, 214, 212, .55); /* 第二层：粉色环绕（透明感） */
-    box-shadow:
-      inset 0 0 0 1px rgba(229, 141, 145, .28),
-      inset 0 2px 10px rgba(126, 86, 84, .10);
-  }
-  .vinyl-shadow {
-    position: absolute;
-    left: 12%; right: 12%; bottom: -5%;
-    height: 14%;
-    border-radius: 50%;
-    background: radial-gradient(ellipse at center, rgba(126, 86, 84, .26), rgba(126, 86, 84, 0) 70%);
-  }
-  .vinyl-holder {
+  .stack-ellipse { /* 白色椭圆底 */
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 156px;   /* 设计稿：唱片直径 = 屏宽 38.7% */
-    height: 156px;
     transform: translate(-50%, -50%);
-    z-index: 4;
+    width: 261px;
+    height: 307px;
   }
-  .vinyl {
+  .stack-pink { /* 粉色圆环层 */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+  }
+  .vinyl-wrap { /* 黑胶（旋转） */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 156px;
+    height: 156px;
+  }
+  .vinyl-disc {
     width: 100%;
     height: 100%;
-    border-radius: 50%; /* 第三层：黑胶，完整正圆 */
-    background:
-      radial-gradient(circle at 34% 32%, rgba(255,255,255,.09), rgba(255,255,255,0) 42%),
-      radial-gradient(circle at 50% 50%, #232625 0%, #1a1d1c 58%, #121413 100%);
-    border: 2px solid #9da09f; /* 设计稿：外缘浅灰圈 */
-    box-shadow:
-      inset 0 0 0 5px #1f2221,
-      inset 0 0 0 6px #2e312f,
-      0 2px 14px rgba(60, 40, 38, .18);
     animation: spin 6s linear infinite;
     animation-play-state: paused;
     will-change: transform;
   }
-  body.playing .vinyl { animation-play-state: running; }
+  body.playing .vinyl-disc { animation-play-state: running; }
   @keyframes spin {
     from { transform: rotateZ(0deg); }
     to   { transform: rotateZ(360deg); }
   }
-  .grooves {
+  .label-logo { /* 标签上的白色手写 LittleSwan（随唱片旋转） */
     position: absolute;
-    inset: 7%;
-    border-radius: 50%;
-    background: repeating-radial-gradient(circle at 50% 50%, #1c1f1e 0px, #222524 2px, #1c1f1e 5px);
-    opacity: .9;
-  }
-  /* 唱片中心标签：小天鹅 + LittleSwan */
-  .vinyl-label {
-    position: absolute;
-    inset: 32%;
-    border-radius: 50%;
-    background: radial-gradient(circle at 42% 38%, #f4adad 0%, var(--salmon) 58%, #d97f83 100%);
-    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .55), 0 0 6px rgba(60, 40, 38, .15);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* logo + 英文名 整体垂直居中 */
-    gap: 3px;
-  }
-  .label-swan { width: 18px; height: 18px; }
-  .label-text {
-    font-family: Georgia, "Times New Roman", "Songti SC", serif;
-    font-style: italic;
-    font-size: 10px;
-    letter-spacing: .3px;
-    color: #ffffff; /* LittleSwan 白色 */
-  }
-  /* 白色光影：随唱片旋转的扇形高光 */
-  .vinyl::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: conic-gradient(from 205deg,
-      rgba(255,255,255,0) 0deg,
-      rgba(255,255,255,.22) 30deg,
-      rgba(255,255,255,.05) 60deg,
-      rgba(255,255,255,0) 90deg,
-      rgba(255,255,255,0) 360deg);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 46px;
+    height: auto;
     pointer-events: none;
   }
-  /* 唱针 */
-  .tonearm {
+  .label-donut { /* 中心轴装饰 */
     position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 5;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: auto;
     pointer-events: none;
   }
-  /* 旋律音符（白色，播放时在唱片上浮动） */
-  .melody {
+  .tonearm { /* 黑胶针（灰色） */
     position: absolute;
-    z-index: 6;
+    right: -14px;
+    top: -76px;
+    width: 56px;
+    height: auto;
+    pointer-events: none;
+  }
+  .white-note {
+    position: absolute;
     color: #ffffff;
-    font-size: 20px;
     opacity: 0;
     animation: bob 3.4s ease-in-out infinite;
     animation-play-state: paused;
     transition: opacity .6s ease;
     pointer-events: none;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .15);
   }
-  body.playing .melody { opacity: .92; animation-play-state: running; }
-  .melody.m1 { left: 78px;  top: 78px;  animation-delay: 0s; }
-  .melody.m2 { left: 182px; top: 150px; animation-delay: 1.1s; font-size: 25px; }
-  .melody.m3 { left: 108px; top: 190px; animation-delay: 2.2s; font-size: 17px; }
-
-  /* ---------- 底部装饰音符 ---------- */
-  .note {
-    position: absolute;
-    font-size: 22px;
-    color: var(--salmon);
-    animation: bob 3.4s ease-in-out infinite;
-    animation-play-state: paused;
-    opacity: .9;
-  }
-  body.playing .note { animation-play-state: running; }
+  body.playing .white-note { opacity: .95; animation-play-state: running; }
+  .white-note.n1 { left: 30px;  top: -62px; font-size: 20px; animation-delay: 0s; }
+  .white-note.n2 { left: 128px; top: -70px; font-size: 24px; animation-delay: 1.1s; }
+  .white-note.n3 { left: 222px; top: -58px; font-size: 17px; animation-delay: 2.2s; }
   @keyframes bob {
     0%, 100% { transform: translateY(0) rotate(-8deg); }
     50%      { transform: translateY(-13px) rotate(10deg); }
   }
 
-  /* ---------- 主题文字（逐字缓慢跳跃） ---------- */
-  .title {
-    margin-top: 8px; /* 唱片 → 歌曲名字 8px */
-    font-size: 40px;
+  /* ---------- 时间显示 + 模式词 ---------- */
+  .timer {
+    position: absolute;
+    left: 0; right: 0;
+    top: 430px;
+    text-align: center;
+    font-size: 30px;
     font-weight: 600;
-    letter-spacing: 6px;
+    font-variant-numeric: tabular-nums;
+    color: var(--white-warm);
+    letter-spacing: 2px;
+  }
+  .mode-word {
+    position: absolute;
+    font-size: 13px;
+    color: var(--word-pink);
+    letter-spacing: 1px;
+  }
+
+  /* ---------- 标题 / 副标题 ---------- */
+  .title {
+    position: absolute;
+    left: 0; right: 0;
+    top: 606px;
+    text-align: center;
+    font-size: 38px;
+    font-weight: 600;
+    letter-spacing: 4px;
     color: var(--salmon);
-    flex: none;
   }
   .title span {
     display: inline-block;
@@ -266,138 +213,129 @@
   .title span:nth-child(3) { animation-delay: .28s; }
   .title span:nth-child(4) { animation-delay: .42s; }
   .title span:nth-child(5) { animation-delay: .56s; }
+  .title span:nth-child(6) { animation-delay: .70s; }
+  .title span:nth-child(7) { animation-delay: .84s; }
   @keyframes jump {
     0%, 100% { transform: translateY(0); }
     28%      { transform: translateY(-0.22em); }
     52%      { transform: translateY(0); }
   }
   .subtitle {
-    margin-top: 2px;
-    font-family: Georgia, "Times New Roman", "Songti SC", serif;
-    font-style: italic;
-    font-size: 17px;
-    letter-spacing: 1px;
-    color: var(--salmon);
-    flex: none;
+    position: absolute;
+    left: 0; right: 0;
+    top: 654px;
+    text-align: center;
+    font-size: 23px;
+    letter-spacing: 2px;
+    color: var(--light-pink);
   }
-  .underline {
-    width: 132px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--salmon-light);
-    margin-top: 4px;
-    flex: none;
+  .hearts {
+    position: absolute;
+    left: 50%;
+    top: 676px;
+    transform: translateX(-50%);
+    width: 245px;
+    height: auto;
+    pointer-events: none;
   }
 
-  /* ---------- 进度条（跟随音乐时间，可点击 / 拖动） ---------- */
+  /* ---------- 进度条（可点击 / 拖动） ---------- */
   .progress-wrap {
-    width: 100%;
-    margin-top: 8px; /* 歌曲名字 → 进度条 8px */
-    flex: none;
-  }
-  .progress-track {
-    width: calc(100% + 12px);
-    height: 26px;
-    margin: 0 -6px;
+    position: absolute;
+    left: 50%;
+    top: 694px;
+    transform: translateX(-50%);
+    width: 346px;
+    height: 28px;
+    cursor: pointer;
+    touch-action: none;
+    outline: none;
     display: flex;
     align-items: center;
-    cursor: pointer;
-    touch-action: none; /* 触摸拖动时不触发页面滚动 */
-    outline: none;
+    justify-content: center;
+  }
+  .progress-rail { /* 宽胶囊底（半透明） */
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: auto;
+    opacity: .55;
+    pointer-events: none;
   }
   .progress-bar {
     position: relative;
     width: 100%;
     height: 5px;
-    border-radius: 5px;
-    background: var(--salmon-light);
+  }
+  .progress-line { /* 鲑鱼线 */
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .9;
   }
   .progress-fill {
-    height: 100%;
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
     width: 0%;
+    background: var(--salmon-bright);
     border-radius: 5px;
-    background: var(--salmon);
   }
   .progress-thumb {
     position: absolute;
     top: 50%;
     left: 0%;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: var(--salmon);
-    box-shadow: 0 0 0 4px rgba(229, 141, 145, .16);
+    width: 12px;
+    height: 12px;
     transform: translate(-50%, -50%) scale(0);
     transition: transform .18s ease;
     pointer-events: none;
   }
-  .progress-track:hover .progress-thumb,
-  .progress-track:focus-visible .progress-thumb,
-  .progress-track.dragging .progress-thumb { transform: translate(-50%, -50%) scale(1); }
-  .progress-track:focus-visible .progress-bar { box-shadow: 0 0 0 3px rgba(229, 141, 145, .22); }
-  .time-row {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2px;
-    font-size: 12px;
-    font-variant-numeric: tabular-nums;
-    color: var(--salmon);
-  }
+  .progress-wrap:hover .progress-thumb,
+  .progress-wrap:focus-visible .progress-thumb,
+  .progress-wrap.dragging .progress-thumb { transform: translate(-50%, -50%) scale(1); }
+  .progress-wrap:focus-visible { box-shadow: 0 0 0 3px rgba(229, 141, 145, .22); border-radius: 6px; }
 
-  /* ---------- 底部控制区 ---------- */
-  .controls {
-    position: relative;
-    width: 100%;
-    height: 72px;
-    margin-top: 8px; /* 进度条 → 播放键 8px */
-    display: flex;
-    align-items: flex-start;
-    justify-content: center; /* 播放键居中 */
-    padding-top: 2px;
-    flex: none;
-  }
-  /* 取消键：与播放键同款式，靠左对齐 */
-  #btnClose {
+  /* ---------- 底部按钮区 ---------- */
+  .btn-main {
     position: absolute;
-    left: 0;
-    top: 2px;
-  }
-  /* 播放 / 取消按钮：同款式同大小 */
-  .btn-round {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    border: 2px solid var(--salmon);
+    left: 50%;
+    top: 765px;
+    transform: translate(-50%, -50%);
+    width: 86px;
+    height: 86px;
+    border: none;
     background: transparent;
-    color: var(--salmon);
-    font-size: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform .15s ease, box-shadow .6s ease;
     padding: 0;
-    line-height: 1;
-    flex: none;
+    cursor: pointer;
   }
-  body.playing .btn-round { box-shadow: 0 0 0 6px rgba(229, 141, 145, .14); }
-  .btn-round:active { transform: scale(.94); }
-  .icon-pause { display: none; }
-  body.playing .icon-play { display: none; }
-  body.playing .icon-pause { display: inline; }
-  .note.c1 { left: 16%; top: 0;  animation-delay: .4s; }
-  .note.c2 { right: 14%; top: 8px; animation-delay: 1.3s; }
-  .note.c3 { right: 27%; bottom: 0; animation-delay: 2.1s; font-size: 20px; }
+  .btn-main img { width: 100%; height: 100%; display: block; }
+  .btn-main:active { transform: translate(-50%, -50%) scale(.94); }
+  .icon-pause-img { display: none; }
+  body.playing .icon-play-img { display: none; }
+  body.playing .icon-pause-img { display: inline; }
+  .tri {
+    position: absolute;
+    top: 765px;
+    transform: translateY(-50%);
+    color: var(--salmon-bright);
+    font-size: 15px;
+    pointer-events: none;
+  }
+  .tri.tri-l { left: 112px; }
+  .tri.tri-r { left: 288px; }
 
-  /* 脚注：常显，上边距 44px（与播放键间距），下边距 14px */
+  /* ---------- 脚注 ---------- */
   .footnote {
-    margin-top: 44px;
-    margin-bottom: 14px;
+    position: absolute;
+    left: 0; right: 0;
+    top: 798px;
     text-align: center;
     font-size: 12px;
     letter-spacing: 2px;
-    color: var(--salmon);
-    flex: none;
+    color: var(--salmon-bright);
   }
 </style>
 </head>
@@ -427,95 +365,70 @@
     </span>
   </div>
 
-  <!-- 品牌（直接取自设计稿原图：手写体 LittleSwan + 全心全意小天鹅） -->
-  <div class="logo">
-    <img class="logo-img" src="logo.png" alt="LittleSwan 全心全意小天鹅">
+  <!-- 左上品牌 -->
+  <div class="logo-top">
+    <img src="assets/logo.png" alt="LittleSwan">
+    <div class="logo-zh">全心全意小天鹅</div>
   </div>
 
-  <div class="stage">
-  <!-- 黑胶唱片（白色圆底 + 粉色环绕 + 黑胶三层 + 唱针 + 旋律） -->
-  <div class="vinyl-scene">
-    <div class="vinyl-backdrop"></div>
-    <div class="vinyl-pink"></div>
-    <div class="vinyl-shadow"></div>
-    <div class="vinyl-holder">
-      <div class="vinyl">
-        <div class="grooves"></div>
-        <div class="vinyl-label">
-          <svg class="label-swan" viewBox="0 0 64 64" aria-hidden="true">
-            <!-- 小天鹅 logo -->
-            <g fill="#ffffff">
-              <ellipse cx="25" cy="46" rx="13" ry="8.5"/>
-              <path d="M34 43 C40 30 43 21 48 17" stroke="#ffffff" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-              <circle cx="49" cy="14" r="5.5"/>
-              <path d="M53.5 12.5 L60 15 L53.5 17.5 Z"/>
-            </g>
-          </svg>
-          <span class="label-text">LittleSwan</span>
-        </div>
-      </div>
+  <!-- 唱片叠层 -->
+  <div class="record-stack">
+    <img class="stack-ellipse" src="assets/椭圆 1.png" alt="">
+    <img class="stack-pink" src="assets/粉圆.png" alt="">
+    <div class="vinyl-wrap">
+      <img class="vinyl-disc" src="assets/中圆.png" alt="">
+      <img class="label-logo" src="assets/logo.png" alt="LittleSwan">
+      <img class="label-donut" src="assets/DONUT.png" alt="">
     </div>
-    <!-- 唱针（灰色，设计稿：唱片 + 唱针组合） -->
-    <svg class="tonearm" viewBox="0 0 256 256" aria-hidden="true">
-      <circle cx="200" cy="26" r="15" fill="#8f9492"/>
-      <circle cx="200" cy="26" r="15" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
-      <circle cx="200" cy="26" r="7" fill="#767b79"/>
-      <line x1="192" y1="38" x2="168" y2="72" stroke="#8f9492" stroke-width="8" stroke-linecap="round"/>
-      <line x1="190" y1="36" x2="166" y2="70" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round"/>
-      <g transform="rotate(-30 160 77)">
-        <rect x="148" y="72" width="24" height="10" rx="4" fill="#8f9492"/>
-        <rect x="148" y="72" width="24" height="3.2" rx="1.6" fill="rgba(255,255,255,.45)"/>
-      </g>
-      <line x1="163" y1="82" x2="172" y2="66" stroke="#6f7472" stroke-width="3" stroke-linecap="round"/>
-    </svg>
-    <!-- 旋律音符（白色，播放时浮动） -->
-    <span class="melody m1">♪</span>
-    <span class="melody m2">♫</span>
-    <span class="melody m3">♬</span>
+    <img class="tonearm" src="assets/黑胶针.png" alt="">
+    <span class="white-note n1">♪</span>
+    <span class="white-note n2">♫</span>
+    <span class="white-note n3">♬</span>
   </div>
 
-  </div><!-- /.stage -->
+  <!-- 时间显示 + 模式词 -->
+  <div class="timer" id="timerDisplay">0:00</div>
+  <span class="mode-word" style="left:145px; top:448px;">标准</span>
+  <span class="mode-word" style="left:140px; top:465px;">单烘干</span>
+  <span class="mode-word" style="left:174px; top:461px;">快洗</span>
+  <span class="mode-word" style="left:169px; top:475px;">温度</span>
+  <span class="mode-word" style="left:196px; top:480px;">智投</span>
+  <span class="mode-word" style="left:217px; top:461px;">羽绒衣</span>
+  <span class="mode-word" style="left:222px; top:475px;">漂洗</span>
+  <span class="mode-word" style="left:244px; top:463px;">筒自洁</span>
+  <span class="mode-word" style="left:267px; top:433px;">启动</span>
 
-  <div class="panel">
-  <!-- 主题文字 -->
-  <h1 class="title"><span>山</span><span>谷</span><span>的</span><span>呼</span><span>吸</span></h1>
-  <p class="subtitle">Breath of the Valley</p>
-  <div class="underline"></div>
+  <!-- 标题 / 副标题 -->
+  <h1 class="title"><span>秋</span><span>日</span><span>疗</span><span>愈</span><span>白</span><span>噪</span><span>音</span></h1>
+  <p class="subtitle">中秋安康 身心皆愈</p>
+  <img class="hearts" src="assets/心心点点.png" alt="">
 
-  <!-- 进度条（可点击 / 拖动定位） -->
-  <div class="progress-wrap">
-    <div class="progress-track" id="progressTrack" role="slider" tabindex="0"
-         aria-label="播放进度" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0">
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-        <div class="progress-thumb" id="progressThumb"></div>
-      </div>
-    </div>
-    <div class="time-row">
-      <span id="timeCur">0:00</span>
-      <span id="timeTotal">0:00</span>
+  <!-- 进度条 -->
+  <div class="progress-wrap" id="progressTrack" role="slider" tabindex="0"
+       aria-label="播放进度" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0">
+    <img class="progress-rail" src="assets/按钮3.png" alt="">
+    <div class="progress-bar">
+      <img class="progress-line" src="assets/直线 1.png" alt="">
+      <div class="progress-fill" id="progressFill"></div>
+      <img class="progress-thumb" id="progressThumb" src="assets/椭圆 4.png" alt="">
     </div>
   </div>
 
-  <!-- 控制区 -->
-  <div class="controls">
-    <span class="note c1">♪</span>
-    <span class="note c2">♫</span>
-    <span class="note c3">♬</span>
-    <button class="btn-round" id="btnClose" aria-label="停止">✕</button>
-    <button class="btn-round" id="btnMain" aria-label="播放/暂停">
-      <span class="icon-play">▶</span><span class="icon-pause">❚❚</span>
-    </button>
-  </div>
+  <!-- 播放 / 暂停大圆按钮 + 两侧小三角 -->
+  <button class="btn-main" id="btnMain" aria-label="播放/暂停">
+    <img class="icon-play-img" src="assets/按钮1.png" alt="播放">
+    <img class="icon-pause-img" src="assets/按钮2.png" alt="暂停">
+  </button>
+  <span class="tri tri-l">▶</span>
+  <span class="tri tri-r">▶</span>
 
   <!-- 脚注 -->
   <div class="footnote">轻触屏幕，开始播放</div>
-  </div><!-- /.panel -->
 
 </div>
 </div><!-- /.viewport -->
 
-<audio id="audio" src="breath-of-the-valley.m4a" loop preload="auto"></audio>
+<audio id="audio" src="assets/breath-of-the-valley.m4a" loop preload="auto"></audio>
 
 <script>
 (function () {
@@ -525,10 +438,8 @@
   var fill = document.getElementById("progressFill");
   var thumb = document.getElementById("progressThumb");
   var track = document.getElementById("progressTrack");
-  var timeCur = document.getElementById("timeCur");
-  var timeTotal = document.getElementById("timeTotal");
+  var timerDisplay = document.getElementById("timerDisplay");
   var btnMain = document.getElementById("btnMain");
-  var btnClose = document.getElementById("btnClose");
   var playing = false;
   var started = false;   // 是否已成功开始过播放（用于自动播放回退）
 
@@ -543,7 +454,6 @@
   function setPlaying(p) {
     playing = p;
     body.classList.toggle("playing", p);
-    body.classList.toggle("awaiting", !p && !started);
     if ("mediaSession" in navigator && navigator.mediaSession) {
       navigator.mediaSession.playbackState = p ? "playing" : "paused";
     }
@@ -552,13 +462,12 @@
   function updateTime() {
     var d = audio.duration || 0;
     if (d > 0) {
-      timeTotal.textContent = fmt(d);
       track.setAttribute("aria-valuemax", String(Math.floor(d)));
       if (!dragging) {
         var pct = (audio.currentTime / d * 100) + "%";
         fill.style.width = pct;
         thumb.style.left = pct;
-        timeCur.textContent = fmt(audio.currentTime);
+        timerDisplay.textContent = fmt(audio.currentTime);
         track.setAttribute("aria-valuenow", String(Math.floor(audio.currentTime)));
       }
     }
@@ -588,7 +497,7 @@
     pendingSeek = f;
     fill.style.width = (f * 100) + "%";
     thumb.style.left = (f * 100) + "%";
-    timeCur.textContent = fmt(f * (audio.duration || 0));
+    timerDisplay.textContent = fmt(f * (audio.duration || 0));
     e.preventDefault();
   });
   track.addEventListener("pointermove", function (e) {
@@ -597,7 +506,7 @@
     pendingSeek = f;
     fill.style.width = (f * 100) + "%";
     thumb.style.left = (f * 100) + "%";
-    timeCur.textContent = fmt(f * (audio.duration || 0));
+    timerDisplay.textContent = fmt(f * (audio.duration || 0));
   });
   function endDrag(e, commit) {
     if (!dragging) return;
@@ -609,7 +518,6 @@
       seekFraction(f);
       updateTime();
     } else {
-      // 拖动被系统打断（来电 / 通知下拉）：取消本次定位
       pendingSeek = null;
     }
   }
@@ -651,13 +559,6 @@
     setPlaying(false);
   }
 
-  function stop() {
-    audio.pause();
-    audio.currentTime = 0;
-    setPlaying(false);
-    updateTime();
-  }
-
   // 状态栏显示真实时间
   function updateClock() {
     var d = new Date();
@@ -674,7 +575,7 @@
       navigator.mediaSession.metadata = new MediaMetadata({
         title: "山谷的呼吸",
         artist: "LittleSwan",
-        album: "山谷的呼吸"
+        album: "秋日疗愈白噪音"
       });
       navigator.mediaSession.setActionHandler("play", play);
       navigator.mediaSession.setActionHandler("pause", pause);
@@ -694,7 +595,6 @@
   audio.addEventListener("play", function () { setPlaying(true); });
   audio.addEventListener("pause", function () { setPlaying(false); });
   audio.addEventListener("error", function () {
-    body.classList.add("awaiting");
     body.classList.remove("playing");
   });
 
@@ -712,7 +612,6 @@
   btnMain.addEventListener("click", function () {
     if (playing) pause(); else play();
   });
-  btnClose.addEventListener("click", stop);
 })();
 </script>
 </body>
